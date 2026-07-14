@@ -1,49 +1,30 @@
-# Croma — Home v1
+# Croma Site Premium v3
 
-Home estática da Croma Gráfica & Papelaria, preparada para GitHub Pages.
+Versão atualizada da Home da Croma Gráfica & Papelaria.
 
-## Estrutura
+## Principais mudanças
 
-```text
-Croma/
-├── index.html
-├── README.md
-└── assets/
-    ├── css/style.css
-    ├── js/script.js
-    └── img/
-        ├── croma-identidade.webp
-        └── favicon.svg
-```
+- Identidade visual oficial aplicada.
+- Carrossel automático com cinco linhas principais.
+- Comunicação visual em destaque sem exagerar o porte dos projetos.
+- Brindes e promocionais.
+- Papelaria personalizada.
+- Presentes e eletrônicos.
+- Linha de papelaria.
+- Formulário de orçamento via WhatsApp.
+- Layout responsivo para computador, tablet e celular.
+- Imagem `croma-identidade.webp` mantida e incorporada ao site.
 
-## Publicar pelo Codespaces
+## Como atualizar no Codespaces
 
-Depois de enviar o ZIP para a raiz do repositório, execute:
+Envie o arquivo ZIP para a raiz do projeto e execute:
 
 ```bash
-unzip -o croma-home-v1.zip -d .
-rm croma-home-v1.zip
+unzip -o croma-site-premium-v3.zip -d .
+rm croma-site-premium-v3.zip
 git add .
-git commit -m "Cria home profissional da Croma"
+git commit -m "Atualiza site premium da Croma"
 git push
 ```
 
-Depois aguarde o GitHub Pages atualizar e acesse:
-
-```text
-https://cromapel.github.io/Croma/
-```
-
-Use `Ctrl + F5` para forçar a atualização.
-
-## Formulário
-
-O formulário abre o WhatsApp da Croma com a mensagem preenchida. Ele não armazena dados e não precisa de servidor.
-
-
-## Atualização v2 — identidade visual
-
-- Logo oficial aplicada no cabeçalho e no rodapé.
-- Favicon oficial em PNG.
-- Imagem `croma-identidade.webp` mantida, agora exibida inteira e centralizada.
-- Cartões do banner reposicionados abaixo da imagem, evitando sobreposição e cortes.
+Depois aguarde a publicação do GitHub Pages e atualize o site com `Ctrl + F5`.

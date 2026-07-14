@@ -1,72 +1,106 @@
-const header = document.querySelector('.site-header');
-const menuButton = document.querySelector('.menu-toggle');
-const menu = document.querySelector('.main-nav');
-const menuLinks = document.querySelectorAll('.main-nav a');
-const quoteForm = document.querySelector('#quote-form');
-const currentYear = document.querySelector('#current-year');
 
-function updateHeader() {
-  header.classList.toggle('is-scrolled', window.scrollY > 24);
-}
+const header = document.querySelector(".site-header");
+const menuButton = document.querySelector(".menu-toggle");
+const menu = document.querySelector(".main-nav");
+const quoteForm = document.querySelector("#quote-form");
+const currentYear = document.querySelector("#current-year");
 
-function closeMenu() {
-  menu.classList.remove('is-open');
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Abrir menu');
-  document.body.classList.remove('menu-open');
-}
-
-menuButton.addEventListener('click', () => {
-  const isOpen = menu.classList.toggle('is-open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-  document.body.classList.toggle('menu-open', isOpen);
+menuButton.addEventListener("click", () => {
+  const open = menu.classList.toggle("is-open");
+  menuButton.setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("menu-open", open);
 });
 
-menuLinks.forEach((link) => link.addEventListener('click', closeMenu));
-window.addEventListener('scroll', updateHeader, { passive: true });
-updateHeader();
+document.querySelectorAll(".main-nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    menu.classList.remove("is-open");
+    menuButton.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
+  });
+});
 
-const revealElements = document.querySelectorAll('.reveal');
-if ('IntersectionObserver' in window) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
+const carousel = document.querySelector("[data-carousel]");
+const slides = [...carousel.querySelectorAll(".hero-slide")];
+const dotsWrap = carousel.querySelector(".carousel-dots");
+let activeIndex = 0;
+let timer;
+
+slides.forEach((_, index) => {
+  const dot = document.createElement("button");
+  dot.type = "button";
+  dot.setAttribute("aria-label", `Ir para o slide ${index + 1}`);
+  dot.addEventListener("click", () => {
+    showSlide(index);
+    restartTimer();
+  });
+  dotsWrap.appendChild(dot);
+});
+
+const dots = [...dotsWrap.children];
+
+function showSlide(index) {
+  activeIndex = (index + slides.length) % slides.length;
+  slides.forEach((slide, i) => slide.classList.toggle("is-active", i === activeIndex));
+  dots.forEach((dot, i) => dot.classList.toggle("active", i === activeIndex));
+}
+
+function restartTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => showSlide(activeIndex + 1), 5500);
+}
+
+carousel.querySelector(".next").addEventListener("click", () => {
+  showSlide(activeIndex + 1);
+  restartTimer();
+});
+
+carousel.querySelector(".prev").addEventListener("click", () => {
+  showSlide(activeIndex - 1);
+  restartTimer();
+});
+
+showSlide(0);
+restartTimer();
+
+const revealElements = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        entry.target.classList.add("is-visible");
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -30px' });
-  revealElements.forEach((element) => observer.observe(element));
+  }, { threshold: 0.12, rootMargin: "0px 0px -30px" });
+  revealElements.forEach(el => observer.observe(el));
 } else {
-  revealElements.forEach((element) => element.classList.add('is-visible'));
+  revealElements.forEach(el => el.classList.add("is-visible"));
 }
 
-quoteForm.addEventListener('submit', (event) => {
+quoteForm.addEventListener("submit", event => {
   event.preventDefault();
-  const name = document.querySelector('#nome').value.trim();
-  const phone = document.querySelector('#telefone').value.trim();
-  const service = document.querySelector('#servico').value;
-  const message = document.querySelector('#mensagem').value.trim();
 
-  if (!name || !service || !message) {
-    window.alert('Preencha nome, serviço e descrição do projeto.');
-    return;
-  }
+  const nome = document.querySelector("#nome").value.trim();
+  const telefone = document.querySelector("#telefone").value.trim();
+  const categoria = document.querySelector("#categoria").value;
+  const mensagem = document.querySelector("#mensagem").value.trim();
 
-  const whatsappMessage = [
-    'Olá, Croma! Vim pelo site e gostaria de solicitar um orçamento.',
-    '',
-    `Nome: ${name}`,
-    `Telefone: ${phone || 'Não informado'}`,
-    `Serviço: ${service}`,
-    '',
-    'Detalhes do projeto:',
-    message
-  ].join('\n');
+  const texto = [
+    "Olá, Croma! Vim pelo site e gostaria de solicitar um orçamento.",
+    "",
+    `Nome: ${nome}`,
+    `Telefone: ${telefone || "Não informado"}`,
+    `Categoria: ${categoria}`,
+    "",
+    "Detalhes:",
+    mensagem
+  ].join("\n");
 
-  const url = 'https://wa.me/553230253588?text=' + encodeURIComponent(whatsappMessage);
-  window.open(url, '_blank', 'noopener,noreferrer');
+  window.open(
+    "https://wa.me/553230253588?text=" + encodeURIComponent(texto),
+    "_blank",
+    "noopener,noreferrer"
+  );
 });
 
 currentYear.textContent = new Date().getFullYear();
