@@ -39,3 +39,11 @@ Use `Ctrl + F5` para forçar a atualização.
 ## Formulário
 
 O formulário abre o WhatsApp da Croma com a mensagem preenchida. Ele não armazena dados e não precisa de servidor.
+
+
+## Atualização v2 — identidade visual
+
+- Logo oficial aplicada no cabeçalho e no rodapé.
+- Favicon oficial em PNG.
+- Imagem `croma-identidade.webp` mantida, agora exibida inteira e centralizada.
+- Cartões do banner reposicionados abaixo da imagem, evitando sobreposição e cortes.
